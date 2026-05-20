@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Tra cứu Gas Detector Tubes - Hệ thống mã vật tư hàng hải IMPA</title>
+    <title>Hệ thống Tra cứu Gas Detector Tubes & Span Gas</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; margin: 24px; background-color: #f8f9fa; color: #24292f; }
         h2 { color: #0969da; margin-bottom: 8px; border-bottom: 1px solid #d0d7de; padding-bottom: 8px; }
@@ -14,6 +14,12 @@
         .references li { margin-bottom: 4px; }
         .references a { color: #0969da; text-decoration: none; font-weight: 500; }
         .references a:hover { text-decoration: underline; }
+
+        /* Giao diện Tabs */
+        .tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid #d0d7de; }
+        .tab-btn { padding: 10px 20px; font-size: 15px; font-weight: 600; border: none; background: none; cursor: pointer; color: #57606a; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+        .tab-btn:hover { color: #0969da; }
+        .tab-btn.active { color: #0969da; border-bottom: 2px solid #0969da; }
 
         .search-container { margin-bottom: 20px; }
         .search-box { width: 100%; padding: 12px 16px; font-size: 16px; border: 1px solid #d0d7de; border-radius: 6px; box-sizing: border-box; background-color: #ffffff; }
@@ -30,6 +36,7 @@
         .badge-impa { background-color: #ffe0b2; color: #e65100; padding: 4px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; font-family: monospace; }
         .badge-draeger { background-color: #e3f2fd; color: #0d47a1; padding: 4px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; font-family: monospace; }
         .badge-gastec { background-color: #efebe9; color: #4e342e; padding: 4px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; font-family: monospace; }
+        .badge-spangas { background-color: #e8f5e9; color: #2e7d32; padding: 4px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; font-family: monospace; }
 
         .detail-list { margin: 6px 0 0 0; padding-left: 15px; font-size: 13px; color: #57606a; }
         .detail-list li { margin-bottom: 2px; }
@@ -41,39 +48,44 @@
 </head>
 <body>
 
-    <h2>Hệ thống Tra cứu Gas Detector Tubes</h2>
+    <h2>Hệ thống Tra cứu Thiết bị đo khí hàng hải</h2>
     
     <div class="references">
         <h4>Tài liệu & Nguồn tra cứu tích hợp:</h4>
         <ul>
-            <li><b>Dräger:</b> <a href="https://www.draeger.com/Content/Documents/Content/CA-Tubes-Microtubes-Catalogue-2024-br-DMC-108237-en-ca.pdf" target="_blank" rel="noopener">Dräger Tubes & Microtubes Catalogue 2024 (PDF)</a></li>
-            <li><b>Gastec (Web Search):</b> <a href="https://www.gastec.co.jp/en/product/detector_tube/search/" target="_blank" rel="noopener">Gastec Official Detector Tube Database</a></li>
-            <li><b>Gastec (PDF List):</b> <a href="https://www.gastec.co.jp/files/user/asset/pdf/Tube_list%20_web.pdf" target="_blank" rel="noopener">Gastec Detector Tube List (PDF)</a></li>
+            <li><b>Dräger:</b> <a href="https://www.draeger.com/Content/Documents/Content/CA-Tubes-Microtubes-Catalogue-2024-br-DMC-108237-en-ca.pdf" target="_blank" rel="noopener">Dräger Tubes Catalogue 2024 (PDF)</a></li>
+            <li><b>Gastec:</b> <a href="https://www.gastec.co.jp/en/product/detector_tube/search/" target="_blank" rel="noopener">Gastec Web Search</a> & <a href="https://www.gastec.co.jp/files/user/asset/pdf/Tube_list%20_web.pdf" target="_blank" rel="noopener">Gastec Tube List (PDF)</a></li>
+            <li><b>Span Gas (IMPA 85):</b> <a href="https://impa-catalogue.shipserv.com/85-welding-equipment/gases-gas-cylinders/span-gas" target="_blank" rel="noopener">IMPA Code Section 85 - Span Gas</a></li>
         </ul>
+    </div>
+
+    <!-- Thanh Tabs chuyển đổi -->
+    <div class="tabs">
+        <button class="tab-btn active" id="tubesTabBtn" onclick="switchTab('tubes')">Ống phát hiện khí (Tubes - IMPA 33)</button>
+        <button class="tab-btn" id="spangasTabBtn" onclick="switchTab('spangas')">Khí hiệu chuẩn (Span Gas - IMPA 85)</button>
     </div>
     
     <div class="search-container">
-        <input type="text" id="searchInput" class="search-box" onkeyup="filterTable()" placeholder="Tìm kiếm nhanh bằng: Mã IMPA, Mã Dräger, Mã Gastec hoặc Tên khí...">
+        <input type="text" id="searchInput" class="search-box" onkeyup="filterTable()" placeholder="Nhập từ khóa tìm kiếm...">
     </div>
 
-    <table id="tubeTable">
-        <thead>
-            <tr>
-                <th width="12%">Mã IMPA</th>
-                <th width="20%">Loại Khí / Hóa chất</th>
-                <th width="34%"><span class="section-header draeger-header">Thông số Dräger (Mẫu 2024)</span></th>
-                <th width="34%"><span class="section-header gastec-header">Mã Gastec đề xuất phù hợp</span></th>
-            </tr>
+    <table id="mainTable">
+        <thead id="tableHead">
+            <!-- Header thay đổi động theo Tab -->
         </thead>
         <tbody id="tableBody">
-            <!-- Dữ liệu đổ tự động từ JS -->
+            <!-- Dữ liệu kết xuất từ JS -->
         </tbody>
     </table>
 
-    <div id="noResult" class="no-result">Không tìm thấy kết quả phù hợp với mã hoặc loại khí yêu cầu.</div>
+    <div id="noResult" class="no-result">Không tìm thấy kết quả phù hợp với yêu cầu tìm kiếm.</div>
 
     <script>
-        const database = [
+        // Tab hoạt động mặc định
+        let activeTab = 'tubes';
+
+        // 1. Toàn bộ 36 mã Detector Tubes (Nhóm 33) giữ nguyên từ bản cập nhật trước
+        const tubeDatabase = [
             // Phân nhóm IMPA 3305xx (Dòng Dräger cơ bản)
             {
                 impa: "330561",
@@ -185,7 +197,7 @@
                 gName: "Carbon Dioxide",
                 gSpecs: ["Dải đo chuẩn: 1 - 20 %", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.5 - 20 %"]
             },
-            // Phân nhóm IMPA 3316xx (Ống hóa chất và khí độc chuyên sâu)
+            // Phân nhóm IMPA 3316xx (Dòng hóa chất chuyên sâu)
             {
                 impa: "331626",
                 gas: "Acetic Acid (CH3COOH)",
@@ -233,7 +245,7 @@
                 dName: "Benzene 2/a",
                 dSpecs: ["Dải đo chuẩn: 2 - 60 ppm (n=5)"],
                 gCode: "No. 121SP",
-                gName: "Benzene (Trong hỗn hợp Hydrocarbon)",
+                gName: "Benzene",
                 gSpecs: ["Dải đo chuẩn: 0.5 - 10 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.2 - 20 ppm"]
             },
             {
@@ -351,7 +363,7 @@
                 gas: "Petroleum Hydrocarbons",
                 dCode: "6730201",
                 dName: "Petroleum Hydrocarbons 100/a",
-                dSpecs: ["Dải đo chuẩn: 100 - 2500 ppm (n=2) (Được chuẩn chuẩn hóa theo n-octane)"],
+                dSpecs: ["Dải đo chuẩn: 100 - 2500 ppm (n=2) (Được chuẩn hóa theo n-octane)"],
                 gCode: "No. 105",
                 gName: "Hydrocarbons (Higher Class)",
                 gSpecs: ["Dải đo chuẩn: 100 - 3000 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 80 - 6000 ppm"]
@@ -438,9 +450,71 @@
             }
         ];
 
+        // 2. Database cho Span Gas (Mã IMPA Nhóm 85)
+        const spanGasDatabase = [
+            { impa: "851581", name: "4-Gas Mixture (Methane 50% LEL)", volume: "34 Lít (CAN)", specs: "2.5% CH4, 50 PPM CO, 25 PPM H2S, 12% O2, Balance N2" },
+            { impa: "851584", name: "4-Gas Mixture (Tiêu chuẩn phổ thông)", volume: "34 Lít (CAN)", specs: "2.5% CH4, 100 PPM CO, 25 PPM H2S, 20.9% O2, Balance N2" },
+            { impa: "851513", name: "Iso-Butane (C4H10) - 50% LEL", volume: "58 Lít (CAN)", specs: "0.75% VOL Iso-Butane, Balance Air" },
+            { impa: "851514", name: "Iso-Butane (C4H10) - 50% LEL", volume: "103 Lít (CAN)", specs: "0.75% VOL Iso-Butane, Balance Air" },
+            { impa: "851524", name: "Carbon Monoxide (CO)", volume: "34 Lít (CAN)", specs: "50 PPM Carbon Monoxide, Balance Air" },
+            { impa: "851525", name: "Carbon Monoxide (CO)", volume: "58 Lít (CAN)", specs: "50 PPM Carbon Monoxide, Balance Air" },
+            { impa: "851528", name: "Carbon Monoxide (CO)", volume: "34 Lít (CAN)", specs: "100 PPM Carbon Monoxide, Balance Air" },
+            { impa: "851529", name: "Carbon Monoxide (CO)", volume: "58 Lít (CAN)", specs: "100 PPM Carbon Monoxide, Balance Air" },
+            { impa: "851540", name: "Hydrogen Sulphide (H2S)", volume: "34 Lít (CAN)", specs: "25 PPM Hydrogen Sulphide, Balance N2" },
+            { impa: "851541", name: "Hydrogen Sulphide (H2S)", volume: "58 Lít (CAN)", specs: "25 PPM Hydrogen Sulphide, Balance N2" },
+            { impa: "851548", name: "Methane (CH4) - 50% LEL", volume: "34 Lít (CAN)", specs: "2.5% VOL Methane, Balance Air" },
+            { impa: "851549", name: "Methane (CH4) - 50% LEL", volume: "58 Lít (CAN)", specs: "2.5% VOL Methane, Balance Air" },
+            { impa: "851556", name: "Nitrogen (N2) Pure", volume: "34 Lít (CAN)", specs: "99.995% Pure Nitrogen (Khí nơ-tơ tinh khiết)" },
+            { impa: "851557", name: "Nitrogen (N2) Pure", volume: "58 Lít (CAN)", specs: "99.995% Pure Nitrogen (Khí nơ-tơ tinh khiết)" },
+            { impa: "851560", name: "Oxygen (O2)", volume: "34 Lít (CAN)", specs: "2.1% Oxygen, Balance N2" },
+            { impa: "851561", name: "Oxygen (O2)", volume: "58 Lít (CAN)", specs: "2.1% Oxygen, Balance N2" },
+            { impa: "851536", name: "Carbon Dioxide (CO2)", volume: "34 Lít (CAN)", specs: "5% Carbon Dioxide, Balance N2" },
+            { impa: "851537", name: "Carbon Dioxide (CO2)", volume: "58 Lít (CAN)", specs: "5% Carbon Dioxide, Balance N2" }
+        ];
+
+        const thead = document.getElementById("tableHead");
         const tbody = document.getElementById("tableBody");
-        
-        function renderTable(dataList) {
+
+        // Chuyển đổi tab hoạt động
+        function switchTab(tab) {
+            activeTab = tab;
+            
+            // Thay đổi trạng thái hiển thị của nút Tab
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tab + 'TabBtn').classList.add('active');
+            
+            // Reset ô tìm kiếm
+            document.getElementById("searchInput").value = "";
+            document.getElementById("noResult").style.display = "none";
+            
+            // Tạo lại Header và hiển thị dữ liệu tương ứng
+            if (tab === 'tubes') {
+                thead.innerHTML = `
+                    <tr>
+                        <th width="12%">Mã IMPA</th>
+                        <th width="20%">Loại Khí / Hóa chất</th>
+                        <th width="34%"><span class="section-header draeger-header">Thông số Dräger (Mẫu 2024)</span></th>
+                        <th width="34%"><span class="section-header gastec-header">Mã Gastec đề xuất phù hợp</span></th>
+                    </tr>
+                `;
+                renderTubesTable(tubeDatabase);
+                document.getElementById("searchInput").placeholder = "Tìm kiếm nhanh bằng: Mã IMPA, Mã Dräger, Mã Gastec hoặc Tên khí...";
+            } else {
+                thead.innerHTML = `
+                    <tr>
+                        <th width="15%">Mã IMPA</th>
+                        <th width="30%">Tên Khí / Hỗn hợp khí</th>
+                        <th width="20%">Dung tích chai</th>
+                        <th width="35%">Thông số thành phần (Concentration & Balance)</th>
+                    </tr>
+                `;
+                renderSpanGasTable(spanGasDatabase);
+                document.getElementById("searchInput").placeholder = "Tìm kiếm bằng: Mã IMPA (VD: 851584), Tên khí (VD: Oxygen, 4-Gas)...";
+            }
+        }
+
+        // Render bảng Tubes (Nhóm 33)
+        function renderTubesTable(dataList) {
             tbody.innerHTML = "";
             dataList.forEach(item => {
                 const tr = document.createElement("tr");
@@ -463,32 +537,65 @@
             });
         }
 
-        renderTable(database);
+        // Render bảng Span Gas (Nhóm 85)
+        function renderSpanGasTable(dataList) {
+            tbody.innerHTML = "";
+            dataList.forEach(item => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td><span class="badge-spangas">${item.impa}</span></td>
+                    <td><span class="gas-name">${item.name}</span></td>
+                    <td><strong>${item.volume}</strong></td>
+                    <td><em>${item.specs}</em></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
 
+        // Khởi động bảng lần đầu tiên ở chế độ 'tubes'
+        switchTab('tubes');
+
+        // Hàm lọc tìm kiếm đồng thời cho cả hai Tab
         function filterTable() {
             const query = document.getElementById("searchInput").value.trim().toLowerCase();
             const queryNoSpaces = query.replace(/\s+/g, '');
 
-            const filteredData = database.filter(item => {
-                const impaMatch = item.impa.toLowerCase().includes(query);
-                const dCodeMatch = item.dCode.toLowerCase().includes(query);
-                
-                const gCodeNormalized = item.gCode.toLowerCase().replace(/\s+/g, '');
-                const gCodeMatch = gCodeNormalized.includes(queryNoSpaces);
-                
-                const gasMatch = item.gas.toLowerCase().includes(query);
-                const dNameMatch = item.dName.toLowerCase().includes(query);
-                const gNameMatch = item.gName.toLowerCase().includes(query);
+            if (activeTab === 'tubes') {
+                const filteredData = tubeDatabase.filter(item => {
+                    const impaMatch = item.impa.toLowerCase().includes(query);
+                    const dCodeMatch = item.dCode.toLowerCase().includes(query);
+                    const gCodeNormalized = item.gCode.toLowerCase().replace(/\s+/g, '');
+                    const gCodeMatch = gCodeNormalized.includes(queryNoSpaces);
+                    const gasMatch = item.gas.toLowerCase().includes(query);
+                    const dNameMatch = item.dName.toLowerCase().includes(query);
+                    const gNameMatch = item.gName.toLowerCase().includes(query);
 
-                return impaMatch || dCodeMatch || gCodeMatch || gasMatch || dNameMatch || gNameMatch;
-            });
+                    return impaMatch || dCodeMatch || gCodeMatch || gasMatch || dNameMatch || gNameMatch;
+                });
 
-            if (filteredData.length > 0) {
-                document.getElementById("noResult").style.display = "none";
-                renderTable(filteredData);
+                if (filteredData.length > 0) {
+                    document.getElementById("noResult").style.display = "none";
+                    renderTubesTable(filteredData);
+                } else {
+                    tbody.innerHTML = "";
+                    document.getElementById("noResult").style.display = "block";
+                }
             } else {
-                tbody.innerHTML = "";
-                document.getElementById("noResult").style.display = "block";
+                const filteredData = spanGasDatabase.filter(item => {
+                    const impaMatch = item.impa.toLowerCase().includes(query);
+                    const nameMatch = item.name.toLowerCase().includes(query);
+                    const specMatch = item.specs.toLowerCase().includes(query);
+
+                    return impaMatch || nameMatch || specMatch;
+                });
+
+                if (filteredData.length > 0) {
+                    document.getElementById("noResult").style.display = "none";
+                    renderSpanGasTable(filteredData);
+                } else {
+                    tbody.innerHTML = "";
+                    document.getElementById("noResult").style.display = "block";
+                }
             }
         }
     </script>
