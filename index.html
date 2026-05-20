@@ -52,7 +52,7 @@
     </div>
     
     <div class="search-container">
-        <input type="text" id="searchInput" class="search-box" onkeyup="filterTable()" placeholder="Nhập mã IMPA (ví dụ: 330562), mã hãng, tên khí hoặc công thức hóa học để tìm kiếm...">
+        <input type="text" id="searchInput" class="search-box" onkeyup="filterTable()" placeholder="Tìm kiếm nhanh bằng: Mã IMPA, Mã Dräger, Mã Gastec hoặc Tên khí...">
     </div>
 
     <table id="tubeTable">
@@ -65,14 +65,14 @@
             </tr>
         </thead>
         <tbody id="tableBody">
-            <!-- Dữ liệu kết xuất từ JavaScript -->
+            <!-- Dữ liệu đổ tự động từ JS -->
         </tbody>
     </table>
 
-    <div id="noResult" class="no-result">Không tìm thấy mã IMPA hoặc thông số khí tương ứng trong hệ thống dữ liệu.</div>
+    <div id="noResult" class="no-result">Không tìm thấy kết quả phù hợp với mã hoặc loại khí yêu cầu.</div>
 
     <script>
-        // Cơ sở dữ liệu đồng bộ giữa IMPA, Dräger Catalogue 2024 và Gastec Search
+        // Cơ sở dữ liệu đồng bộ
         const database = [
             {
                 impa: "330561",
@@ -89,7 +89,7 @@
                 gSpecs: [
                     "Dải đo chuẩn: 100 - 3000 ppm (n-Octane)",
                     "Số lần kéo bơm (n): 1 (hoặc 2 cho dải thấp)",
-                    "Khoảng đo thực tế: 80 - 6000 ppm (tùy Hydrocarbon)"
+                    "Khoảng đo thực tế: 80 - 6000 ppm"
                 ]
             },
             {
@@ -107,7 +107,7 @@
                 gSpecs: [
                     "Dải đo chuẩn: 10 - 500 ppm",
                     "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 7 - 1000 ppm (n=1/2 đến 2)"
+                    "Khoảng đo thực tế: 7 - 1000 ppm"
                 ]
             },
             {
@@ -124,7 +124,7 @@
                 gSpecs: [
                     "Dải đo chuẩn: 0.25 - 3.0 %",
                     "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 0.13 - 6.0 % (n=1/2 đến 2)"
+                    "Khoảng đo thực tế: 0.13 - 6.0 %"
                 ]
             },
             {
@@ -189,7 +189,7 @@
                 gSpecs: [
                     "Dải đo chuẩn: 0.5 - 5.0 ppm",
                     "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 0.1 - 10 ppm (n=1/2 đến 4)"
+                    "Khoảng đo thực tế: 0.1 - 10 ppm"
                 ]
             },
             {
@@ -207,7 +207,7 @@
                 gSpecs: [
                     "Dải đo chuẩn: 25 - 500 ppm",
                     "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 8 - 1000 ppm (n=1/2 đến 2)"
+                    "Khoảng đo thực tế: 8 - 1000 ppm"
                 ]
             },
             {
@@ -222,7 +222,7 @@
                 gName: "Oxygen",
                 gSpecs: [
                     "Dải đo chuẩn: 6 - 24 %",
-                    "Số lần kéo bơm (n): 1 (Ống tự sinh nhiệt)",
+                    "Số lần kéo bơm (n): 1",
                     "Khoảng đo thực tế: 3 - 24 %"
                 ]
             },
@@ -291,24 +291,19 @@
             }
         ];
 
-        // Kết xuất dữ liệu động vào bảng
         const tbody = document.getElementById("tableBody");
         
-        function renderDatabase(dataList) {
+        // Hàm render bảng dựa trên danh sách dữ liệu đầu vào
+        function renderTable(dataList) {
             tbody.innerHTML = "";
             dataList.forEach(item => {
                 const tr = document.createElement("tr");
-                
-                // Tạo danh sách thông số Dräger
                 const dListHtml = item.dSpecs.map(spec => `<li>${spec}</li>`).join("");
-                // Tạo danh sách thông số Gastec
                 const gListHtml = item.gSpecs.map(spec => `<li>${spec}</li>`).join("");
 
                 tr.innerHTML = `
                     <td><span class="badge-impa">${item.impa}</span></td>
-                    <td>
-                        <span class="gas-name">${item.gas}</span>
-                    </td>
+                    <td><span class="gas-name">${item.gas}</span></td>
                     <td>
                         <div><span class="badge-draeger">${item.dCode}</span> <strong>${item.dName}</strong></div>
                         <ul class="detail-list">${dListHtml}</ul>
@@ -322,26 +317,38 @@
             });
         }
 
-        // Chạy kết xuất lần đầu
-        renderDatabase(database);
+        // Render dữ liệu mặc định ban đầu
+        renderTable(database);
 
-        // Bộ lọc tìm kiếm
+        // Logic lọc chính xác theo các trường dữ liệu được chọn
         function filterTable() {
-            const input = document.getElementById("searchInput").value.toLowerCase();
-            const rows = tbody.getElementsByTagName("tr");
-            let found = false;
+            const query = document.getElementById("searchInput").value.trim().toLowerCase();
+            
+            // Chuẩn hóa chuỗi tìm kiếm (loại bỏ khoảng trắng để so khớp mã Gastec dễ hơn)
+            const queryNoSpaces = query.replace(/\s+/g, '');
 
-            for (let i = 0; i < rows.length; i++) {
-                const text = rows[i].textContent.toLowerCase();
-                if (text.includes(input)) {
-                    rows[i].style.display = "";
-                    found = true;
-                } else {
-                    rows[i].style.display = "none";
-                }
+            const filteredData = database.filter(item => {
+                const impaMatch = item.impa.toLowerCase().includes(query);
+                const dCodeMatch = item.dCode.toLowerCase().includes(query);
+                
+                // So khớp Gastec xử lý cả trường hợp có hoặc không có dấu cách (VD: "No.3M" vs "No. 3M" vs "3M")
+                const gCodeNormalized = item.gCode.toLowerCase().replace(/\s+/g, '');
+                const gCodeMatch = gCodeNormalized.includes(queryNoSpaces);
+                
+                const gasMatch = item.gas.toLowerCase().includes(query);
+                const dNameMatch = item.dName.toLowerCase().includes(query);
+                const gNameMatch = item.gName.toLowerCase().includes(query);
+
+                return impaMatch || dCodeMatch || gCodeMatch || gasMatch || dNameMatch || gNameMatch;
+            });
+
+            if (filteredData.length > 0) {
+                document.getElementById("noResult").style.display = "none";
+                renderTable(filteredData);
+            } else {
+                tbody.innerHTML = "";
+                document.getElementById("noResult").style.display = "block";
             }
-
-            document.getElementById("noResult").style.display = found ? "none" : "block";
         }
     </script>
 </body>
