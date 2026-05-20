@@ -226,6 +226,29 @@
         .badge-gastec { background-color: #efebe9; color: #4e342e; padding: 4px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; font-family: monospace; }
         .badge-spangas { background-color: #e8f5e9; color: #2e7d32; padding: 4px 8px; border-radius: 4px; font-size: 13px; font-weight: bold; font-family: monospace; }
 
+        /* Nút Datasheet Gastec */
+        .datasheet-btn {
+            background-color: #24292f;
+            color: #ffffff;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .datasheet-btn:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: #ffffff;
+            text-decoration: none;
+        }
+
         .detail-list { margin: 6px 0 0 0; padding-left: 15px; font-size: 13px; color: #57606a; }
         .detail-list li { margin-bottom: 2px; }
         
@@ -296,6 +319,7 @@
 
         // 1. Toàn bộ 36 mã Detector Tubes (Nhóm 33) đã được hiệu chuẩn dải đo
         const tubeDatabase = [
+            // Phân nhóm IMPA 3305xx (Dòng Dräger cơ bản)
             {
                 impa: "330561",
                 gas: "Hydrocarbons (Dầu khí)",
@@ -838,6 +862,9 @@
                 const dListHtml = item.dSpecs.map(spec => `<li>${spec}</li>`).join("");
                 const gListHtml = item.gSpecs.map(spec => `<li>${spec}</li>`).join("");
 
+                // Làm sạch mã Gastec trước khi tạo đường dẫn để tránh ký tự rác
+                const cleanCode = item.gCode.replace("No. ", "").trim();
+
                 tr.innerHTML = `
                     <td><span class="badge-impa">${item.impa}</span></td>
                     <td><span class="gas-name">${item.gas}</span></td>
@@ -846,7 +873,11 @@
                         <ul class="detail-list">${dListHtml}</ul>
                     </td>
                     <td>
-                        <div><span class="badge-gastec">${item.gCode}</span> <strong>${item.gName}</strong></div>
+                        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+                            <span class="badge-gastec">${item.gCode}</span>
+                            <a href="https://www.gastec.co.jp/en/instruction/" target="_blank" rel="noopener" class="datasheet-btn">📄 Datasheet</a>
+                            <strong>${item.gName}</strong>
+                        </div>
                         <ul class="detail-list">${gListHtml}</ul>
                     </td>
                 `;
