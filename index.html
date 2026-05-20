@@ -13,14 +13,15 @@
             --border-color: #d0d7de;
         }
 
+        /* Khóa cuộn toàn trang để phân bổ vùng cuộn riêng biệt */
         body {
             margin: 0;
             display: flex;
-            min-height: 100vh;
+            height: 100vh;
             background-color: #f8f9fa;
             color: var(--text-color);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         /* Menu Sidebar Bên Trái */
@@ -91,7 +92,6 @@
             color: #ffffff;
         }
 
-        /* Bản quyền tác giả ở chân Sidebar */
         .sidebar-footer {
             padding: 16px 20px;
             font-size: 12px;
@@ -108,6 +108,7 @@
             display: flex;
             flex-direction: column;
             min-width: 0;
+            height: 100vh;
         }
 
         /* Thanh Top Bar chứa nút ẩn/hiện menu */
@@ -117,16 +118,16 @@
             padding: 12px 24px;
             display: flex;
             align-items: center;
-            justify-content: center; /* Căn giữa nội dung theo chiều ngang */
-            position: relative;     /* Cần thiết để nút bấm định vị tuyệt đối */
-            top: 0;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
             z-index: 90;
             min-height: 40px;
         }
 
         .toggle-btn {
-            position: absolute;    /* Đưa nút bấm ra khỏi luồng căn giữa */
-            left: 24px;            /* Căn lề trái cố định */
+            position: absolute;
+            left: 24px;
             background: none;
             border: 1px solid var(--border-color);
             border-radius: 6px;
@@ -148,14 +149,22 @@
             margin: 0;
             font-size: 16px;
             font-weight: 600;
-            text-align: center;    /* Đảm bảo chữ căn giữa */
+            text-align: center;
         }
 
-        /* Khu vực hiển thị bảng */
+        /* Khu vực hiển thị bảng (Sử dụng Flexbox để chia vùng cố định và vùng cuộn) */
         .content-area {
             padding: 24px;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
             flex: 1;
+            min-height: 0; /* Cho phép vùng con thu nhỏ để kích hoạt cuộn */
+            box-sizing: border-box;
+        }
+
+        /* Phần Cố Định (Tài liệu tham khảo + Ô tìm kiếm) */
+        .fixed-header-section {
+            flex-shrink: 0;
         }
 
         .references {
@@ -176,9 +185,37 @@
         .search-box { width: 100%; padding: 12px 16px; font-size: 16px; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; background-color: #ffffff; }
         .search-box:focus { border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.3); }
 
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; background-color: #ffffff; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; }
-        th { background-color: #f6f8fa; color: var(--text-color); font-weight: 600; }
+        /* Vùng Cuộn (Bảng dữ liệu) */
+        .table-container {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: #ffffff;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+        }
+
+        th, td { 
+            padding: 12px; 
+            text-align: left; 
+            border-bottom: 1px solid var(--border-color); 
+            font-size: 14px; 
+        }
+
+        /* Giữ cố định tiêu đề cột của bảng khi cuộn */
+        th { 
+            background-color: #f6f8fa; 
+            color: var(--text-color); 
+            font-weight: 600; 
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: inset 0 -1px 0 var(--border-color);
+        }
         
         .section-header { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; padding: 4px 8px; border-radius: 4px; display: inline-block; }
         .draeger-header { background-color: #ddf4ff; color: #0969da; }
@@ -222,27 +259,33 @@
         </div>
         
         <div class="content-area">
-            <div class="references">
-                <h4>Tài liệu & Nguồn tra cứu tích hợp:</h4>
-                <ul>
-                    <li><b>Dräger:</b> <a href="https://www.draeger.com/Content/Documents/Content/CA-Tubes-Microtubes-Catalogue-2024-br-DMC-108237-en-ca.pdf" target="_blank" rel="noopener">Dräger Tubes Catalogue 2024 (PDF)</a></li>
-                    <li><b>Gastec:</b> <a href="https://www.gastec.co.jp/en/product/detector_tube/search/" target="_blank" rel="noopener">Gastec Web Search</a> & <a href="https://www.gastec.co.jp/files/user/asset/pdf/Tube_list%20_web.pdf" target="_blank" rel="noopener">Gastec Tube List (PDF)</a></li>
-                    <li><b>Span Gas (IMPA 85):</b> <a href="https://impa-catalogue.shipserv.com/85-welding-equipment/gases-gas-cylinders/span-gas" target="_blank" rel="noopener">IMPA Code Section 85 - Span Gas</a></li>
-                </ul>
-            </div>
-            
-            <div class="search-container">
-                <input type="text" id="searchInput" class="search-box" onkeyup="filterTable()" placeholder="Nhập từ khóa tìm kiếm...">
+            <!-- PHẦN ĐƯỢC CỐ ĐỊNH (Tài liệu tham khảo + Ô tìm kiếm) -->
+            <div class="fixed-header-section">
+                <div class="references">
+                    <h4>Tài liệu & Nguồn tra cứu tích hợp:</h4>
+                    <ul>
+                        <li><b>Dräger:</b> <a href="https://www.draeger.com/Content/Documents/Content/CA-Tubes-Microtubes-Catalogue-2024-br-DMC-108237-en-ca.pdf" target="_blank" rel="noopener">Dräger Tubes Catalogue 2024 (PDF)</a></li>
+                        <li><b>Gastec:</b> <a href="https://www.gastec.co.jp/en/product/detector_tube/search/" target="_blank" rel="noopener">Gastec Web Search</a> & <a href="https://www.gastec.co.jp/files/user/asset/pdf/Tube_list%20_web.pdf" target="_blank" rel="noopener">Gastec Tube List (PDF)</a></li>
+                        <li><b>Span Gas (IMPA 85):</b> <a href="https://impa-catalogue.shipserv.com/85-welding-equipment/gases-gas-cylinders/span-gas" target="_blank" rel="noopener">IMPA Code Section 85 - Span Gas</a></li>
+                    </ul>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="search-box" onkeyup="filterTable()" placeholder="Nhập từ khóa tìm kiếm...">
+                </div>
             </div>
 
-            <table id="mainTable">
-                <thead id="tableHead">
-                    <!-- Sẽ tự động tạo động theo Tab -->
-                </thead>
-                <tbody id="tableBody">
-                    <!-- Dữ liệu JS -->
-                </tbody>
-            </table>
+            <!-- PHẦN CUỘN TRƯỢT (Chứa bảng dữ liệu) -->
+            <div class="table-container">
+                <table id="mainTable">
+                    <thead id="tableHead">
+                        <!-- Sẽ tự động tạo động theo Tab -->
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Dữ liệu JS -->
+                    </tbody>
+                </table>
+            </div>
 
             <div id="noResult" class="no-result">Không tìm thấy kết quả phù hợp với yêu cầu tìm kiếm.</div>
         </div>
@@ -251,7 +294,7 @@
     <script>
         let activeTab = 'tubes';
 
-        // 1. Toàn bộ 36 mã Detector Tubes (Nhóm 33) giữ nguyên
+        // 1. Toàn bộ 36 mã Detector Tubes (Nhóm 33)
         const tubeDatabase = [
             {
                 impa: "330561",
