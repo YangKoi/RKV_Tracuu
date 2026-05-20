@@ -294,9 +294,8 @@
     <script>
         let activeTab = 'tubes';
 
-        // 1. Toàn bộ 36 mã Detector Tubes (Nhóm 33) đã được hiệu chuẩn lại dải đo chính xác
+        // 1. Toàn bộ 36 mã Detector Tubes (Nhóm 33) đã được hiệu chuẩn dải đo
         const tubeDatabase = [
-            // Phân nhóm IMPA 3305xx (Dòng Dräger cơ bản)
             {
                 impa: "330561",
                 gas: "Hydrocarbons (Dầu khí)",
@@ -365,7 +364,7 @@
                 dSpecs: ["Dải đo chuẩn: 1 - 25 ppm (n=10)", "Dải đo mở rộng: 10 - 250 ppm (n=1)"],
                 gCode: "No. 5La",
                 gName: "Sulfur Dioxide",
-                gSpecs: ["Dải đo chuẩn: 2 - 30 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.5 - 60 ppm (Phù hợp nhất với Dräger)"]
+                gSpecs: ["Dải đo chuẩn: 2 - 30 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.5 - 60 ppm"]
             },
             {
                 impa: "330568",
@@ -407,7 +406,6 @@
                 gName: "Carbon Dioxide",
                 gSpecs: ["Dải đo chuẩn: 1 - 20 %", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.5 - 20 %"]
             },
-            // Phân nhóm IMPA 3316xx (Dòng hóa chất chuyên sâu)
             {
                 impa: "331626",
                 gas: "Acetic Acid (CH3COOH)",
@@ -660,26 +658,128 @@
             }
         ];
 
-        // 2. Database cho Span Gas (Nhóm 85)
+        // 2. Toàn bộ 81 mã Span Gas (Nhóm 85) được cập nhật đồng bộ hoàn toàn với IMPA
         const spanGasDatabase = [
-            { impa: "851581", name: "4-Gas Mixture (Methane 50% LEL)", volume: "34 Lít (CAN)", specs: "2.5% CH4, 50 PPM CO, 25 PPM H2S, 12% O2, Balance N2" },
-            { impa: "851584", name: "4-Gas Mixture (Tiêu chuẩn phổ thông)", volume: "34 Lít (CAN)", specs: "2.5% CH4, 100 PPM CO, 25 PPM H2S, 20.9% O2, Balance N2" },
-            { impa: "851513", name: "Iso-Butane (C4H10) - 50% LEL", volume: "58 Lít (CAN)", specs: "0.75% VOL Iso-Butane, Balance Air" },
-            { impa: "851514", name: "Iso-Butane (C4H10) - 50% LEL", volume: "103 Lít (CAN)", specs: "0.75% VOL Iso-Butane, Balance Air" },
+            // 851507 - 851508 (Khí đặc biệt)
+            { impa: "851507", name: "Isobutylene (i-C4H8)", volume: "110 Lít", specs: "100 PPM Isobutylene, Balance Air (Sử dụng đo VOC/PID)" },
+            { impa: "851508", name: "Ethanol (C2H5OH)", volume: "110 Lít", specs: "216 PPM Ethanol, Balance Nitrogen (N2) 0.038%" },
+
+            // 851511 - 851514 (Iso-Butane 0.75% / 50% LEL)
+            { impa: "851511", name: "Iso-Butane (C4H10) - 50% LEL", volume: "11 Lít (CAN)", specs: "0.75% VOL (50% LEL) Iso-Butane, Balance Air" },
+            { impa: "851512", name: "Iso-Butane (C4H10) - 50% LEL", volume: "34 Lít (CAN)", specs: "0.75% VOL (50% LEL) Iso-Butane, Balance Air" },
+            { impa: "851513", name: "Iso-Butane (C4H10) - 50% LEL", volume: "58 Lít (CAN)", specs: "0.75% VOL (50% LEL) Iso-Butane, Balance Air" },
+            { impa: "851514", name: "Iso-Butane (C4H10) - 50% LEL", volume: "103 Lít (CAN)", specs: "0.75% VOL (50% LEL) Iso-Butane, Balance Air" },
+
+            // 851515 - 851518 (Butane 8%)
+            { impa: "851515", name: "Butane (C4H10)", volume: "11 Lít (CAN)", specs: "8% Butane, Balance Nitrogen (N2)" },
+            { impa: "851516", name: "Butane (C4H10)", volume: "34 Lít (CAN)", specs: "8% Butane, Balance Nitrogen (N2)" },
+            { impa: "851517", name: "Butane (C4H10)", volume: "58 Lít (CAN)", specs: "8% Butane, Balance Nitrogen (N2)" },
+            { impa: "851518", name: "Butane (C4H10)", volume: "103 Lít (CAN)", specs: "8% Butane, Balance Nitrogen (N2)" },
+
+            // 851519 - 851522 (Pure Butane 99.5%)
+            { impa: "851519", name: "Butane (C4H10) Pure", volume: "11 Lít (CAN)", specs: "99.5% Pure Butane" },
+            { impa: "851520", name: "Butane (C4H10) Pure", volume: "34 Lít (CAN)", specs: "99.5% Pure Butane" },
+            { impa: "851521", name: "Butane (C4H10) Pure", volume: "58 Lít (CAN)", specs: "99.5% Pure Butane" },
+            { impa: "851522", name: "Butane (C4H10) Pure", volume: "103 Lít (CAN)", specs: "99.5% Pure Butane" },
+
+            // 851523 - 851526 (CO 50 ppm)
+            { impa: "851523", name: "Carbon Monoxide (CO)", volume: "11 Lít (CAN)", specs: "50 PPM Carbon Monoxide, Balance Air" },
             { impa: "851524", name: "Carbon Monoxide (CO)", volume: "34 Lít (CAN)", specs: "50 PPM Carbon Monoxide, Balance Air" },
             { impa: "851525", name: "Carbon Monoxide (CO)", volume: "58 Lít (CAN)", specs: "50 PPM Carbon Monoxide, Balance Air" },
+            { impa: "851526", name: "Carbon Monoxide (CO)", volume: "103 Lít (CAN)", specs: "50 PPM Carbon Monoxide, Balance Air" },
+
+            // 851527 - 851530 (CO 100 ppm)
+            { impa: "851527", name: "Carbon Monoxide (CO)", volume: "11 Lít (CAN)", specs: "100 PPM Carbon Monoxide, Balance Air" },
             { impa: "851528", name: "Carbon Monoxide (CO)", volume: "34 Lít (CAN)", specs: "100 PPM Carbon Monoxide, Balance Air" },
             { impa: "851529", name: "Carbon Monoxide (CO)", volume: "58 Lít (CAN)", specs: "100 PPM Carbon Monoxide, Balance Air" },
-            { impa: "851540", name: "Hydrogen Sulphide (H2S)", volume: "34 Lít (CAN)", specs: "25 PPM Hydrogen Sulphide, Balance N2" },
-            { impa: "851541", name: "Hydrogen Sulphide (H2S)", volume: "58 Lít (CAN)", specs: "25 PPM Hydrogen Sulphide, Balance N2" },
-            { impa: "851548", name: "Methane (CH4) - 50% LEL", volume: "34 Lít (CAN)", specs: "2.5% VOL Methane, Balance Air" },
-            { impa: "851549", name: "Methane (CH4) - 50% LEL", volume: "58 Lít (CAN)", specs: "2.5% VOL Methane, Balance Air" },
-            { impa: "851556", name: "Nitrogen (N2) Pure", volume: "34 Lít (CAN)", specs: "99.995% Pure Nitrogen (Khí nơ-tơ tinh khiết)" },
-            { impa: "851557", name: "Nitrogen (N2) Pure", volume: "58 Lít (CAN)", specs: "99.995% Pure Nitrogen (Khí nơ-tơ tinh khiết)" },
-            { impa: "851560", name: "Oxygen (O2)", volume: "34 Lít (CAN)", specs: "2.1% Oxygen, Balance N2" },
-            { impa: "851561", name: "Oxygen (O2)", volume: "58 Lít (CAN)", specs: "2.1% Oxygen, Balance N2" },
-            { impa: "851536", name: "Carbon Dioxide (CO2)", volume: "34 Lít (CAN)", specs: "5% Carbon Dioxide, Balance N2" },
-            { impa: "851537", name: "Carbon Dioxide (CO2)", volume: "58 Lít (CAN)", specs: "5% Carbon Dioxide, Balance N2" }
+            { impa: "851530", name: "Carbon Monoxide (CO)", volume: "103 Lít (CAN)", specs: "100 PPM Carbon Monoxide, Balance Air" },
+
+            // 851531 - 851534 (CO 250 ppm)
+            { impa: "851531", name: "Carbon Monoxide (CO)", volume: "20 Lít (CAN)", specs: "250 PPM Carbon Monoxide, Balance Air" },
+            { impa: "851532", name: "Carbon Monoxide (CO)", volume: "34 Lít (CAN)", specs: "250 PPM Carbon Monoxide, Balance Air" },
+            { impa: "851533", name: "Carbon Monoxide (CO)", volume: "58 Lít (CAN)", specs: "250 PPM Carbon Monoxide, Balance Air" },
+            { impa: "851534", name: "Carbon Monoxide (CO)", volume: "116 Lít (CAN)", specs: "250 PPM Carbon Monoxide, Balance Air" },
+
+            // 851535 - 851538 (CO2 5%)
+            { impa: "851535", name: "Carbon Dioxide (CO2)", volume: "11 Lít (CAN)", specs: "5% Carbon Dioxide, Balance Nitrogen (N2)" },
+            { impa: "851536", name: "Carbon Dioxide (CO2)", volume: "34 Lít (CAN)", specs: "5% Carbon Dioxide, Balance Nitrogen (N2)" },
+            { impa: "851537", name: "Carbon Dioxide (CO2)", volume: "58 Lít (CAN)", specs: "5% Carbon Dioxide, Balance Nitrogen (N2)" },
+            { impa: "851538", name: "Carbon Dioxide (CO2)", volume: "103 Lít (CAN)", specs: "5% Carbon Dioxide, Balance Nitrogen (N2)" },
+
+            // 851539 - 851542 (H2S 25 ppm)
+            { impa: "851539", name: "Hydrogen Sulphide (H2S)", volume: "11 Lít (CAN)", specs: "25 PPM Hydrogen Sulphide, Balance Nitrogen (N2)" },
+            { impa: "851540", name: "Hydrogen Sulphide (H2S)", volume: "34 Lít (CAN)", specs: "25 PPM Hydrogen Sulphide, Balance Nitrogen (N2)" },
+            { impa: "851541", name: "Hydrogen Sulphide (H2S)", volume: "58 Lít (CAN)", specs: "25 PPM Hydrogen Sulphide, Balance Nitrogen (N2)" },
+            { impa: "851542", name: "Hydrogen Sulphide (H2S)", volume: "116 Lít (CAN)", specs: "25 PPM Hydrogen Sulphide, Balance Nitrogen (N2)" },
+
+            // 851543 - 851546 (H2S 50 ppm)
+            { impa: "851543", name: "Hydrogen Sulphide (H2S)", volume: "11 Lít (CAN)", specs: "50 PPM Hydrogen Sulphide, Balance Nitrogen (N2)" },
+            { impa: "851544", name: "Hydrogen Sulphide (H2S)", volume: "34 Lít (CAN)", specs: "50 PPM Hydrogen Sulphide, Balance Nitrogen (N2)" },
+            { impa: "851545", name: "Hydrogen Sulphide (H2S)", volume: "58 Lít (CAN)", specs: "50 PPM Hydrogen Sulphide, Balance Nitrogen (N2)" },
+            { impa: "851546", name: "Hydrogen Sulphide (H2S)", volume: "116 Lít (CAN)", specs: "50 PPM Hydrogen Sulphide, Balance Nitrogen (N2)" },
+
+            // 851547 - 851550 (Methane 2.5% / 50% LEL)
+            { impa: "851547", name: "Methane (CH4) - 50% LEL", volume: "11 Lít (CAN)", specs: "2.5% VOL (50% LEL) Methane, Balance Air" },
+            { impa: "851548", name: "Methane (CH4) - 50% LEL", volume: "34 Lít (CAN)", specs: "2.5% VOL (50% LEL) Methane, Balance Air" },
+            { impa: "851549", name: "Methane (CH4) - 50% LEL", volume: "58 Lít (CAN)", specs: "2.5% VOL (50% LEL) Methane, Balance Air" },
+            { impa: "851550", name: "Methane (CH4) - 50% LEL", volume: "103 Lít (CAN)", specs: "2.5% VOL (50% LEL) Methane, Balance Air" },
+
+            // 851551 - 851554 (Pure Methane 99.95%)
+            { impa: "851551", name: "Methane (CH4) Pure", volume: "11 Lít (CAN)", specs: "99.95% Pure Methane" },
+            { impa: "851552", name: "Methane (CH4) Pure", volume: "34 Lít (CAN)", specs: "99.95% Pure Methane" },
+            { impa: "851553", name: "Methane (CH4) Pure", volume: "58 Lít (CAN)", specs: "99.95% Pure Methane" },
+            { impa: "851554", name: "Methane (CH4) Pure", volume: "103 Lít (CAN)", specs: "99.95% Pure Methane" },
+
+            // 851555 - 851558 (Pure Nitrogen 99.995%)
+            { impa: "851555", name: "Nitrogen (N2) Pure", volume: "11 Lít (CAN)", specs: "99.995% Pure Nitrogen" },
+            { impa: "851556", name: "Nitrogen (N2) Pure", volume: "34 Lít (CAN)", specs: "99.995% Pure Nitrogen" },
+            { impa: "851557", name: "Nitrogen (N2) Pure", volume: "58 Lít (CAN)", specs: "99.995% Pure Nitrogen" },
+            { impa: "851558", name: "Nitrogen (N2) Pure", volume: "103 Lít (CAN)", specs: "99.995% Pure Nitrogen" },
+
+            // 851559 - 851562 (Oxygen 2.1%)
+            { impa: "851559", name: "Oxygen (O2)", volume: "11 Lít (CAN)", specs: "2.1% Oxygen, Balance Nitrogen (N2)" },
+            { impa: "851560", name: "Oxygen (O2)", volume: "34 Lít (CAN)", specs: "2.1% Oxygen, Balance Nitrogen (N2)" },
+            { impa: "851561", name: "Oxygen (O2)", volume: "58 Lít (CAN)", specs: "2.1% Oxygen, Balance Nitrogen (N2)" },
+            { impa: "851562", name: "Oxygen (O2)", volume: "103 Lít (CAN)", specs: "2.1% Oxygen, Balance Nitrogen (N2)" },
+
+            // 851563 - 851566 (Oxygen 5.5%)
+            { impa: "851563", name: "Oxygen (O2)", volume: "11 Lít (CAN)", specs: "5.5% Oxygen, Balance Nitrogen (N2)" },
+            { impa: "851564", name: "Oxygen (O2)", volume: "34 Lít (CAN)", specs: "5.5% Oxygen, Balance Nitrogen (N2)" },
+            { impa: "851565", name: "Oxygen (O2)", volume: "58 Lít (CAN)", specs: "5.5% Oxygen, Balance Nitrogen (N2)" },
+            { impa: "851566", name: "Oxygen (O2)", volume: "103 Lít (CAN)", specs: "5.5% Oxygen, Balance Nitrogen (N2)" },
+
+            // 851567 - 851570 (Pentane 0.7% / 50% LEL)
+            { impa: "851567", name: "Pentane (C5H12) - 50% LEL", volume: "11 Lít (CAN)", specs: "0.7% VOL (50% LEL) Pentane, Balance Air" },
+            { impa: "851568", name: "Pentane (C5H12) - 50% LEL", volume: "34 Lít (CAN)", specs: "0.7% VOL (50% LEL) Pentane, Balance Air" },
+            { impa: "851569", name: "Pentane (C5H12) - 50% LEL", volume: "58 Lít (CAN)", specs: "0.7% VOL (50% LEL) Pentane, Balance Air" },
+            { impa: "851570", name: "Pentane (C5H12) - 50% LEL", volume: "103 Lít (CAN)", specs: "0.7% VOL (50% LEL) Pentane, Balance Air" },
+
+            // 851571 - 851574 (Propene/Propylene 1.1% / 50% LEL)
+            { impa: "851571", name: "Propene (Propylene) (C3H6) - 50% LEL", volume: "11 Lít (CAN)", specs: "1.1% VOL (50% LEL) Propene, Balance Air" },
+            { impa: "851572", name: "Propene (Propylene) (C3H6) - 50% LEL", volume: "34 Lít (CAN)", specs: "1.1% VOL (50% LEL) Propene, Balance Air" },
+            { impa: "851573", name: "Propene (Propylene) (C3H6) - 50% LEL", volume: "58 Lít (CAN)", specs: "1.1% VOL (50% LEL) Propene, Balance Air" },
+            { impa: "851574", name: "Propene (Propylene) (C3H6) - 50% LEL", volume: "103 Lít (CAN)", specs: "1.1% VOL (50% LEL) Propene, Balance Air" },
+
+            // 851575 - 851578 (Pure Propane 99.95%)
+            { impa: "851575", name: "Propane (C3H8) Pure", volume: "11 Lít (CAN)", specs: "99.95% Pure Propane" },
+            { impa: "851576", name: "Propane (C3H8) Pure", volume: "34 Lít (CAN)", specs: "99.95% Pure Propane" },
+            { impa: "851577", name: "Propane (C3H8) Pure", volume: "58 Lít (CAN)", specs: "99.95% Pure Propane" },
+            { impa: "851578", name: "Propane (C3H8) Pure", volume: "103 Lít (CAN)", specs: "99.95% Pure Propane" },
+
+            // 851581 - 851583 (4-Gas Mixture Methane 50% LEL / O2 12%)
+            { impa: "851581", name: "4-Gas Mixture (CH4/CO/H2S/O2)", volume: "34 Lít (CAN)", specs: "2.5% CH4, 50 PPM CO, 25 PPM H2S, 12% O2, Balance Nitrogen (N2)" },
+            { impa: "851582", name: "4-Gas Mixture (CH4/CO/H2S/O2)", volume: "58 Lít (CAN)", specs: "2.5% CH4, 50 PPM CO, 25 PPM H2S, 12% O2, Balance Nitrogen (N2)" },
+            { impa: "851583", name: "4-Gas Mixture (CH4/CO/H2S/O2)", volume: "116 Lít (CAN)", specs: "2.5% CH4, 50 PPM CO, 25 PPM H2S, 12% O2, Balance Nitrogen (N2)" },
+
+            // 851584 - 851586 (4-Gas Mixture CH4/CO/H2S/O2 - Phổ thông tiêu chuẩn)
+            { impa: "851584", name: "4-Gas Mixture (CH4/CO/H2S/O2)", volume: "34 Lít (CAN)", specs: "2.5% CH4, 100 PPM CO, 25 PPM H2S, 20.9% O2, Balance Nitrogen (N2)" },
+            { impa: "851585", name: "4-Gas Mixture (CH4/CO/H2S/O2)", volume: "58 Lít (CAN)", specs: "2.5% CH4, 100 PPM CO, 25 PPM H2S, 20.9% O2, Balance Nitrogen (N2)" },
+            { impa: "851586", name: "4-Gas Mixture (CH4/CO/H2S/O2)", volume: "116 Lít (CAN)", specs: "2.5% CH4, 100 PPM CO, 25 PPM H2S, 20.9% O2, Balance Nitrogen (N2)" },
+
+            // 851587 - 851589 (4-Gas Mixture CH4/CO/H2S/O2 - Độ nhạy cao)
+            { impa: "851587", name: "4-Gas Mixture (CH4/CO/H2S/O2)", volume: "34 Lít (CAN)", specs: "2.5% CH4, 100 PPM CO, 40 PPM H2S, 15% O2, Balance Nitrogen (N2)" },
+            { impa: "851588", name: "4-Gas Mixture (CH4/CO/H2S/O2)", volume: "58 Lít (CAN)", specs: "2.5% CH4, 100 PPM CO, 40 PPM H2S, 15% O2, Balance Nitrogen (N2)" },
+            { impa: "851589", name: "4-Gas Mixture (CH4/CO/H2S/O2)", volume: "116 Lít (CAN)", specs: "2.5% CH4, 100 PPM CO, 40 PPM H2S, 15% O2, Balance Nitrogen (N2)" }
         ];
 
         const thead = document.getElementById("tableHead");
