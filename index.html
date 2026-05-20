@@ -288,7 +288,7 @@
                     <h4>Tài liệu & Nguồn tra cứu tích hợp:</h4>
                     <ul>
                         <li><b>Dräger:</b> <a href="https://www.draeger.com/Content/Documents/Content/CA-Tubes-Microtubes-Catalogue-2024-br-DMC-108237-en-ca.pdf" target="_blank" rel="noopener">Dräger Tubes Catalogue 2024 (PDF)</a></li>
-                        <li><b>Gastec:</b> <a href="https://www.gastec.co.jp/en/product/detector_tube/search/" target="_blank" rel="noopener">Gastec Web Search</a> & <a href="https://www.gastec.co.jp/files/user/asset/pdf/Tube_list%20_web.pdf" target="_blank" rel="noopener">Gastec Tube List (PDF)</a></li>
+                        <li><b>Gastec Web:</b> <a href="https://www.gastec.co.jp/en/product/detector_tube/search/" target="_blank" rel="noopener">Gastec Web Search</a> & <a href="https://www.gastec.co.jp/files/user/asset/pdf/Tube_list%20_web.pdf" target="_blank" rel="noopener">Gastec Tube List (PDF)</a></li>
                         <li><b>Span Gas (IMPA 85):</b> <a href="https://impa-catalogue.shipserv.com/85-welding-equipment/gases-gas-cylinders/span-gas" target="_blank" rel="noopener">IMPA Code Section 85 - Span Gas</a></li>
                     </ul>
                 </div>
@@ -854,7 +854,7 @@
             }
         }
 
-        // Tạo dòng dữ liệu Tubes
+        // Tạo dòng dữ liệu Tubes kèm đường link PDF chính thức của Gastec
         function renderTubesTable(dataList) {
             tbody.innerHTML = "";
             dataList.forEach(item => {
@@ -862,8 +862,9 @@
                 const dListHtml = item.dSpecs.map(spec => `<li>${spec}</li>`).join("");
                 const gListHtml = item.gSpecs.map(spec => `<li>${spec}</li>`).join("");
 
-                // Làm sạch mã Gastec trước khi tạo đường dẫn để tránh ký tự rác
+                // Tách mã Gastec sạch (bỏ "No. ") để sinh link PDF tự động
                 const cleanCode = item.gCode.replace("No. ", "").trim();
+                const gastecPdfUrl = `https://www.gastec.co.jp/files/user/asset/pdf/en/detector_tube/${cleanCode}.pdf`;
 
                 tr.innerHTML = `
                     <td><span class="badge-impa">${item.impa}</span></td>
@@ -875,7 +876,7 @@
                     <td>
                         <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
                             <span class="badge-gastec">${item.gCode}</span>
-                            <a href="https://www.gastec.co.jp/en/instruction/" target="_blank" rel="noopener" class="datasheet-btn">📄 Datasheet</a>
+                            <a href="${gastecPdfUrl}" target="_blank" rel="noopener" class="datasheet-btn">📄 Datasheet</a>
                             <strong>${item.gName}</strong>
                         </div>
                         <ul class="detail-list">${gListHtml}</ul>
