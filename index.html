@@ -74,222 +74,367 @@
 
     <script>
         const database = [
-            // Phân nhóm 3305xx
+            // Phân nhóm IMPA 3305xx (Dòng Dräger cơ bản)
             {
                 impa: "330561",
                 gas: "Hydrocarbons (Dầu khí)",
                 dCode: "CH26101",
                 dName: "Hydrocarbon 0.1%/b",
-                dSpecs: [
-                    "Dải đo chuẩn: 0.1 - 0.8 Vol% n-Butane",
-                    "Số lần bóp bơm (n): 1",
-                    "Dải đo mở rộng: 0.1 - 1.3 Vol% Propane"
-                ],
+                dSpecs: ["Dải đo chuẩn: 0.1 - 0.8 Vol% n-Butane", "Số lần bóp bơm (n): 1", "Dải đo mở rộng: 0.1 - 1.3 Vol% Propane"],
                 gCode: "No. 105",
                 gName: "Hydrocarbons (Higher Class)",
-                gSpecs: [
-                    "Dải đo chuẩn: 100 - 3000 ppm (n-Octane)",
-                    "Số lần kéo bơm (n): 1 (hoặc 2 cho dải thấp)",
-                    "Khoảng đo thực tế: 80 - 6000 ppm"
-                ]
+                gSpecs: ["Dải đo chuẩn: 100 - 3000 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 80 - 6000 ppm"]
             },
             {
                 impa: "330562",
                 gas: "Ammonia (NH3)",
                 dCode: "CH20501",
                 dName: "Ammonia 5/a",
-                dSpecs: [
-                    "Dải đo chuẩn: 5 - 70 ppm (n=10)",
-                    "Dải đo mở rộng: 50 - 600 ppm (n=1)",
-                    "Tổng khoảng đo: 5 - 700 ppm"
-                ],
+                dSpecs: ["Dải đo chuẩn: 5 - 70 ppm (n=10)", "Dải đo mở rộng: 50 - 600 ppm (n=1)", "Tổng dải đo: 5 - 700 ppm"],
                 gCode: "No. 3M",
                 gName: "Ammonia",
-                gSpecs: [
-                    "Dải đo chuẩn: 10 - 500 ppm",
-                    "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 7 - 1000 ppm"
-                ]
+                gSpecs: ["Dải đo chuẩn: 10 - 500 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 7 - 1000 ppm"]
             },
             {
                 impa: "330563",
                 gas: "Carbon Dioxide (CO2)",
                 dCode: "CH23501",
                 dName: "Carbon Dioxide 0.1%/a",
-                dSpecs: [
-                    "Dải đo chuẩn: 0.5 - 6 Vol% (n=1)",
-                    "Dải đo mở rộng: 0.1 - 1.2 Vol% (n=5)"
-                ],
+                dSpecs: ["Dải đo chuẩn: 0.5 - 6 Vol% (n=1)", "Dải đo mở rộng: 0.1 - 1.2 Vol% (n=5)"],
                 gCode: "No. 2L",
                 gName: "Carbon Dioxide",
-                gSpecs: [
-                    "Dải đo chuẩn: 0.25 - 3.0 %",
-                    "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 0.13 - 6.0 %"
-                ]
+                gSpecs: ["Dải đo chuẩn: 0.25 - 3.0 %", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.13 - 6.0 %"]
             },
             {
                 impa: "330564",
                 gas: "Carbon Dioxide (CO2)",
                 dCode: "CH25101",
                 dName: "Carbon Dioxide 1%/a",
-                dSpecs: [
-                    "Dải đo chuẩn: 1 - 20 Vol% (n=1)"
-                ],
+                dSpecs: ["Dải đo chuẩn: 1 - 20 Vol% (n=1)"],
                 gCode: "No. 2H",
                 gName: "Carbon Dioxide",
-                gSpecs: [
-                    "Dải đo chuẩn: 1 - 20 %",
-                    "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 0.5 - 20 %"
-                ]
+                gSpecs: ["Dải đo chuẩn: 1 - 20 %", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.5 - 20 %"]
             },
             {
                 impa: "330565",
                 gas: "Carbon Monoxide (CO)",
                 dCode: "CH29901",
                 dName: "Carbon Monoxide 0.3%/b",
-                dSpecs: [
-                    "Dải đo chuẩn: 0.3 - 7 Vol% (n=1)"
-                ],
+                dSpecs: ["Dải đo chuẩn: 0.3 - 7 Vol% (n=1)"],
                 gCode: "No. 1H",
                 gName: "Carbon Monoxide",
-                gSpecs: [
-                    "Dải đo chuẩn: 0.2 - 10 %",
-                    "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 0.1 - 10 %"
-                ]
+                gSpecs: ["Dải đo chuẩn: 0.2 - 5 %", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.1 - 10 %"]
             },
             {
                 impa: "330566",
                 gas: "Natural Gas (Methane)",
                 dCode: "CH20001",
                 dName: "Natural Gas Test",
-                dSpecs: [
-                    "Kiểm tra định tính rò rỉ khí gas",
-                    "Số lần bóp bơm (n): 5"
-                ],
+                dSpecs: ["Kiểm tra định tính rò rỉ khí gas", "Số lần bóp bơm (n): 5"],
                 gCode: "No. 106",
                 gName: "Methane (Natural Gas Test)",
-                gSpecs: [
-                    "Kiểm tra định tính rò rỉ (Qualitative)",
-                    "Số lần kéo bơm (n): 1"
-                ]
+                gSpecs: ["Kiểm tra định tính rò rỉ (Qualitative)", "Số lần kéo bơm (n): 1"]
             },
             {
                 impa: "330567",
                 gas: "Sulfur Dioxide (SO2)",
                 dCode: "CH31701",
                 dName: "Sulphur Dioxide 1/a",
-                dSpecs: [
-                    "Dải đo chuẩn: 1 - 25 ppm (n=10)",
-                    "Dải đo mở rộng: 10 - 250 ppm (n=1)"
-                ],
+                dSpecs: ["Dải đo chuẩn: 1 - 25 ppm (n=10)", "Dải đo mở rộng: 10 - 250 ppm (n=1)"],
                 gCode: "No. 5LA",
                 gName: "Sulfur Dioxide",
-                gSpecs: [
-                    "Dải đo chuẩn: 0.5 - 5.0 ppm",
-                    "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 0.1 - 10 ppm"
-                ]
+                gSpecs: ["Dải đo chuẩn: 0.5 - 5.0 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.1 - 10 ppm"]
             },
             {
                 impa: "330568",
                 gas: "Carbon Monoxide (CO)",
                 dCode: "CH25601",
                 dName: "Carbon Monoxide 5/c",
-                dSpecs: [
-                    "Dải đo chuẩn: 100 - 700 ppm (n=1)",
-                    "Dải đo mở rộng: 5 - 150 ppm (n=10)",
-                    "Tổng khoảng đo: 5 - 700 ppm"
-                ],
+                dSpecs: ["Dải đo chuẩn: 100 - 700 ppm (n=1)", "Dải đo mở rộng: 5 - 150 ppm (n=10)"],
                 gCode: "No. 1La",
                 gName: "Carbon Monoxide",
-                gSpecs: [
-                    "Dải đo chuẩn: 25 - 500 ppm",
-                    "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 8 - 1000 ppm"
-                ]
+                gSpecs: ["Dải đo chuẩn: 25 - 500 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 8 - 1000 ppm"]
             },
             {
                 impa: "330569",
                 gas: "Oxygen (O2)",
                 dCode: "6728081",
                 dName: "Oxygen 5%/b",
-                dSpecs: [
-                    "Dải đo chuẩn: 5 - 23 Vol% (n=1)"
-                ],
+                dSpecs: ["Dải đo chuẩn: 5 - 23 Vol% (n=1)"],
                 gCode: "No. 31B",
                 gName: "Oxygen",
-                gSpecs: [
-                    "Dải đo chuẩn: 6 - 24 %",
-                    "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 3 - 24 %"
-                ]
+                gSpecs: ["Dải đo chuẩn: 6 - 24 %", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 3 - 24 %"]
             },
             {
                 impa: "330570",
                 gas: "Carbon Dioxide (CO2)",
                 dCode: "8101811",
                 dName: "Carbon Dioxide 100/a",
-                dSpecs: [
-                    "Dải đo chuẩn: 100 - 3000 ppm (n=10)"
-                ],
+                dSpecs: ["Dải đo chuẩn: 100 - 3000 ppm (n=10)"],
                 gCode: "No. 2LC",
                 gName: "Carbon Dioxide",
-                gSpecs: [
-                    "Dải đo chuẩn: 100 - 2000 ppm",
-                    "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 100 - 4000 ppm"
-                ]
+                gSpecs: ["Dải đo chuẩn: 100 - 2000 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 100 - 4000 ppm"]
             },
             {
                 impa: "330571",
                 gas: "Carbon Dioxide (CO2)",
                 dCode: "CH31401",
                 dName: "Carbon Dioxide 0.5%/a",
-                dSpecs: [
-                    "Dải đo chuẩn: 0.5 - 10 Vol% (n=1)"
-                ],
+                dSpecs: ["Dải đo chuẩn: 0.5 - 10 Vol% (n=1)"],
                 gCode: "No. 2H",
                 gName: "Carbon Dioxide",
-                gSpecs: [
-                    "Dải đo chuẩn: 1 - 20 %",
-                    "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 0.5 - 20 %"
-                ]
+                gSpecs: ["Dải đo chuẩn: 1 - 20 %", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.5 - 20 %"]
             },
-            // Phân nhóm 3316xx
+            // Phân nhóm IMPA 3316xx (Ống hóa chất và khí độc chuyên sâu)
             {
                 impa: "331626",
                 gas: "Acetic Acid (CH3COOH)",
                 dCode: "6722101",
                 dName: "Acetic Acid 5/a",
-                dSpecs: [
-                    "Dải đo chuẩn: 5 - 80 ppm (n=3)"
-                ],
+                dSpecs: ["Dải đo chuẩn: 5 - 80 ppm (n=3)"],
                 gCode: "No. 81",
                 gName: "Acetic Acid",
-                gSpecs: [
-                    "Dải đo chuẩn: 2 - 50 ppm",
-                    "Số lần kéo bơm (n): 1"
-                ]
+                gSpecs: ["Dải đo chuẩn: 2 - 50 ppm", "Số lần kéo bơm (n): 1"]
+            },
+            {
+                impa: "331627",
+                gas: "Alcohol (Methanol / Ethanol)",
+                dCode: "8101631",
+                dName: "Alcohol 25/a",
+                dSpecs: ["Dải đo chuẩn: 25 - 5000 ppm Methanol (n=1)", "Dải đo chuẩn: 25 - 2000 ppm Ethanol (n=1)"],
+                gCode: "No. 112L",
+                gName: "Ethanol",
+                gSpecs: ["Dải đo chuẩn: 50 - 2000 ppm", "Số lần kéo bơm (n): 1"]
             },
             {
                 impa: "331628",
                 gas: "Benzene (C6H6)",
                 dCode: "6728561",
                 dName: "Benzene 0.5/a",
-                dSpecs: [
-                    "Dải đo chuẩn: 0.5 - 10 ppm (n=4)"
-                ],
+                dSpecs: ["Dải đo chuẩn: 0.5 - 10 ppm (n=4)"],
                 gCode: "No. 121L",
                 gName: "Benzene",
-                gSpecs: [
-                    "Dải đo chuẩn: 1 - 25 ppm",
-                    "Số lần kéo bơm (n): 1",
-                    "Khoảng đo thực tế: 0.1 - 65 ppm"
-                ]
+                gSpecs: ["Dải đo chuẩn: 1 - 25 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.1 - 65 ppm"]
+            },
+            {
+                impa: "331629",
+                gas: "Benzene (C6H6)",
+                dCode: "8101841",
+                dName: "Benzene 0.5/c",
+                dSpecs: ["Dải đo chuẩn: 0.5 - 10 ppm (n=4)"],
+                gCode: "No. 121L",
+                gName: "Benzene",
+                gSpecs: ["Dải đo chuẩn: 1 - 25 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.1 - 65 ppm"]
+            },
+            {
+                impa: "331630",
+                gas: "Benzene (C6H6)",
+                dCode: "8101231",
+                dName: "Benzene 2/a",
+                dSpecs: ["Dải đo chuẩn: 2 - 60 ppm (n=5)"],
+                gCode: "No. 121SP",
+                gName: "Benzene (Trong hỗn hợp Hydrocarbon)",
+                gSpecs: ["Dải đo chuẩn: 0.5 - 10 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.2 - 20 ppm"]
+            },
+            {
+                impa: "331631",
+                gas: "Carbon Monoxide (CO)",
+                dCode: "6733051",
+                dName: "CO 2/a",
+                dSpecs: ["Dải đo chuẩn: 2 - 60 ppm (n=10)", "Dải đo mở rộng: 20 - 600 ppm (n=1)"],
+                gCode: "No. 1La",
+                gName: "Carbon Monoxide",
+                gSpecs: ["Dải đo chuẩn: 25 - 500 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 8 - 1000 ppm"]
+            },
+            {
+                impa: "331632",
+                gas: "Carbon Monoxide (CO)",
+                dCode: "CH20601",
+                dName: "CO 10/b",
+                dSpecs: ["Dải đo chuẩn: 100 - 3000 ppm (n=1)", "Dải đo mở rộng: 10 - 300 ppm (n=10)"],
+                gCode: "No. 1LM",
+                gName: "Carbon Monoxide",
+                gSpecs: ["Dải đo chuẩn: 50 - 1000 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 25 - 2000 ppm"]
+            },
+            {
+                impa: "331633",
+                gas: "Hexane (C6H14)",
+                dCode: "6728391",
+                dName: "Hexane 100/a",
+                dSpecs: ["Dải đo chuẩn: 100 - 3000 ppm (n=6)"],
+                gCode: "No. 102L",
+                gName: "Hexane",
+                gSpecs: ["Dải đo chuẩn: 600 - 14400 ppm", "Số lần kéo bơm (n): 1"]
+            },
+            {
+                impa: "331634",
+                gas: "Hydrogen Sulfide (H2S)",
+                dCode: "6719001",
+                dName: "Hydrogen Sulfide 1/c (Mẫu cũ)",
+                dSpecs: ["Dải đo chuẩn: 1 - 20 ppm (n=10)", "Dải đo mở rộng: 10 - 200 ppm (n=1)"],
+                gCode: "No. 4L",
+                gName: "Hydrogen Sulphide",
+                gSpecs: ["Dải đo chuẩn: 10 - 120 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 1 - 240 ppm"]
+            },
+            {
+                impa: "331635",
+                gas: "Hydrogen Sulfide (H2S)",
+                dCode: "8101831",
+                dName: "Hydrogen Sulfide 1/d",
+                dSpecs: ["Dải đo chuẩn: 10 - 200 ppm (n=1)", "Dải đo mở rộng: 1 - 20 ppm (n=10)"],
+                gCode: "No. 4L",
+                gName: "Hydrogen Sulphide",
+                gSpecs: ["Dải đo chuẩn: 10 - 120 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 1 - 240 ppm"]
+            },
+            {
+                impa: "331636",
+                gas: "Hydrogen Sulfide (H2S)",
+                dCode: "CH29101",
+                dName: "Hydrogen Sulfide 100/a",
+                dSpecs: ["Dải đo chuẩn: 100 - 2000 ppm (n=1)"],
+                gCode: "No. 4HM",
+                gName: "Hydrogen Sulphide",
+                gSpecs: ["Dải đo chuẩn: 50 - 800 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 25 - 1600 ppm"]
+            },
+            {
+                impa: "331637",
+                gas: "Mercaptan (R-SH)",
+                dCode: "8103281",
+                dName: "Mercaptan 0.1/a",
+                dSpecs: ["Dải đo chuẩn: 0.1 - 2.5 ppm (n=10)", "Dải đo mở rộng: 3 - 15 ppm (n=2)"],
+                gCode: "No. 70L",
+                gName: "Methyl Mercaptan",
+                gSpecs: ["Dải đo chuẩn: 0.5 - 5 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.1 - 10 ppm"]
+            },
+            {
+                impa: "331638",
+                gas: "Mercaptan (R-SH)",
+                dCode: "6728981",
+                dName: "Mercaptan 0.5/a",
+                dSpecs: ["Dải đo chuẩn: 5 - 120 ppm (n=1)", "Dải đo mở rộng: 0.5 - 5 ppm (n=9)"],
+                gCode: "No. 70",
+                gName: "Methyl Mercaptan",
+                gSpecs: ["Dải đo chuẩn: 2 - 30 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.5 - 120 ppm"]
+            },
+            {
+                impa: "331639",
+                gas: "Methyl Acrylate (C4H6O2)",
+                dCode: "6728161",
+                dName: "Methyl Acrylate 5/a",
+                dSpecs: ["Dải đo chuẩn: 5 - 200 ppm (n=5)"],
+                gCode: "No. 149",
+                gName: "Methyl Methacrylate",
+                gSpecs: ["Dải đo chuẩn: 10 - 100 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 4.4 - 88 ppm"]
+            },
+            {
+                impa: "331640",
+                gas: "Methyl Bromide (CH3Br)",
+                dCode: "CH27301",
+                dName: "Methyl Bromide 5/b",
+                dSpecs: ["Dải đo chuẩn: 5 - 50 ppm (n=5)"],
+                gCode: "No. 136L",
+                gName: "Methyl Bromide",
+                gSpecs: ["Dải đo chuẩn: 10 - 200 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 2.5 - 200 ppm"]
+            },
+            {
+                impa: "331641",
+                gas: "Oxygen (O2)",
+                dCode: "8103261",
+                dName: "Oxygen 5%/C",
+                dSpecs: ["Dải đo chuẩn: 5 - 23 Vol% (n=1)"],
+                gCode: "No. 31B",
+                gName: "Oxygen",
+                gSpecs: ["Dải đo chuẩn: 6 - 24 %", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 3 - 24 %"]
+            },
+            {
+                impa: "331642",
+                gas: "Petroleum Hydrocarbons",
+                dCode: "6730201",
+                dName: "Petroleum Hydrocarbons 100/a",
+                dSpecs: ["Dải đo chuẩn: 100 - 2500 ppm (n=2) (Được chuẩn chuẩn hóa theo n-octane)"],
+                gCode: "No. 105",
+                gName: "Hydrocarbons (Higher Class)",
+                gSpecs: ["Dải đo chuẩn: 100 - 3000 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 80 - 6000 ppm"]
+            },
+            {
+                impa: "331643",
+                gas: "Phenol (C6H5OH)",
+                dCode: "8101641",
+                dName: "Phenol 1/b",
+                dSpecs: ["Dải đo chuẩn: 1 - 20 ppm (n=20)"],
+                gCode: "No. 60",
+                gName: "Phenol",
+                gSpecs: ["Dải đo chuẩn: 1 - 25 ppm", "Số lần kéo bơm (n): 2", "Khoảng đo thực tế: 0.4 - 187 ppm"]
+            },
+            {
+                impa: "331644",
+                gas: "Phosphine (PH3)",
+                dCode: "CH31101",
+                dName: "Phosphine 0.1/a",
+                dSpecs: ["Dải đo chuẩn: 0.1 - 4 ppm (n=10)"],
+                gCode: "No. 7LA",
+                gName: "Phosphine",
+                gSpecs: ["Dải đo chuẩn: 0.1 - 2.0 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.05 - 9.8 ppm"]
+            },
+            {
+                impa: "331645",
+                gas: "Styrene (C8H8)",
+                dCode: "6733141",
+                dName: "Styrene 10/b",
+                dSpecs: ["Dải đo chuẩn: 10 - 250 ppm (n=15)"],
+                gCode: "No. 124L",
+                gName: "Styrene",
+                gSpecs: ["Dải đo chuẩn: 2 - 100 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 1 - 100 ppm"]
+            },
+            {
+                impa: "331646",
+                gas: "Sulphuric Acid (H2SO4)",
+                dCode: "6728781",
+                dName: "Sulphuric Acid 1/a",
+                dSpecs: ["Dải đo chuẩn: 1 - 5 mg/m³ (n=100)"],
+                gCode: "No. 35",
+                gName: "Sulphuric Acid",
+                gSpecs: ["Dải đo chuẩn: 0.5 - 5 mg/m³", "Số lần kéo bơm (n): 5"]
+            },
+            {
+                impa: "331647",
+                gas: "Sulfur Dioxide (SO2)",
+                dCode: "6728491",
+                dName: "Sulphur Dioxide 0.5/a",
+                dSpecs: ["Dải đo chuẩn: 0.5 - 5 ppm (n=20)", "Dải đo mở rộng: 5 - 25 ppm (n=4)"],
+                gCode: "No. 5La",
+                gName: "Sulfur Dioxide",
+                gSpecs: ["Dải đo chuẩn: 0.5 - 20 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 0.1 - 100 ppm"]
+            },
+            {
+                impa: "331648",
+                gas: "Vinyl Chloride (C2H3Cl)",
+                dCode: "8101721",
+                dName: "Vinyl Chloride 0.5/b",
+                dSpecs: ["Dải đo chuẩn: 0.5 - 3 ppm (n=5)", "Dải đo mở rộng: 5 - 30 ppm (n=1)"],
+                gCode: "No. 131L",
+                gName: "Vinyl Chloride",
+                gSpecs: ["Dải đo chuẩn: 0.25 - 6 ppm", "Số lần kéo bơm (n): 2", "Khoảng đo thực tế: 0.1 - 30 ppm"]
+            },
+            {
+                impa: "331649",
+                gas: "Toluene (C7H8)",
+                dCode: "8101661",
+                dName: "Toluene 5/b",
+                dSpecs: ["Dải đo chuẩn: 50 - 300 ppm (n=2)", "Dải đo mở rộng: 5 - 80 ppm (n=10)"],
+                gCode: "No. 122L",
+                gName: "Toluene",
+                gSpecs: ["Dải đo chuẩn: 10 - 100 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 1 - 250 ppm"]
+            },
+            {
+                impa: "331650",
+                gas: "Xylene (C8H10)",
+                dCode: "6733161",
+                dName: "Xylene 10/a",
+                dSpecs: ["Dải đo chuẩn: 10 - 400 ppm (n=5)"],
+                gCode: "No. 123L",
+                gName: "Xylene",
+                gSpecs: ["Dải đo chuẩn: 5 - 100 ppm", "Số lần kéo bơm (n): 1", "Khoảng đo thực tế: 2 - 200 ppm"]
             }
         ];
 
