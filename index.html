@@ -47,7 +47,8 @@
         <h4>Tài liệu & Nguồn tra cứu tích hợp:</h4>
         <ul>
             <li><b>Dräger:</b> <a href="https://www.draeger.com/Content/Documents/Content/CA-Tubes-Microtubes-Catalogue-2024-br-DMC-108237-en-ca.pdf" target="_blank" rel="noopener">Dräger Tubes & Microtubes Catalogue 2024 (PDF)</a></li>
-            <li><b>Gastec:</b> <a href="https://www.gastec.co.jp/en/product/detector_tube/search/" target="_blank" rel="noopener">Gastec Official Detector Tube Database</a></li>
+            <li><b>Gastec (Web Search):</b> <a href="https://www.gastec.co.jp/en/product/detector_tube/search/" target="_blank" rel="noopener">Gastec Official Detector Tube Database</a></li>
+            <li><b>Gastec (PDF List):</b> <a href="https://www.gastec.co.jp/files/user/asset/pdf/Tube_list%20_web.pdf" target="_blank" rel="noopener">Gastec Detector Tube List (PDF)</a></li>
         </ul>
     </div>
     
@@ -72,8 +73,8 @@
     <div id="noResult" class="no-result">Không tìm thấy kết quả phù hợp với mã hoặc loại khí yêu cầu.</div>
 
     <script>
-        // Cơ sở dữ liệu đồng bộ
         const database = [
+            // Phân nhóm 3305xx
             {
                 impa: "330561",
                 gas: "Hydrocarbons (Dầu khí)",
@@ -258,6 +259,7 @@
                     "Khoảng đo thực tế: 0.5 - 20 %"
                 ]
             },
+            // Phân nhóm 3316xx
             {
                 impa: "331626",
                 gas: "Acetic Acid (CH3COOH)",
@@ -293,7 +295,6 @@
 
         const tbody = document.getElementById("tableBody");
         
-        // Hàm render bảng dựa trên danh sách dữ liệu đầu vào
         function renderTable(dataList) {
             tbody.innerHTML = "";
             dataList.forEach(item => {
@@ -317,21 +318,16 @@
             });
         }
 
-        // Render dữ liệu mặc định ban đầu
         renderTable(database);
 
-        // Logic lọc chính xác theo các trường dữ liệu được chọn
         function filterTable() {
             const query = document.getElementById("searchInput").value.trim().toLowerCase();
-            
-            // Chuẩn hóa chuỗi tìm kiếm (loại bỏ khoảng trắng để so khớp mã Gastec dễ hơn)
             const queryNoSpaces = query.replace(/\s+/g, '');
 
             const filteredData = database.filter(item => {
                 const impaMatch = item.impa.toLowerCase().includes(query);
                 const dCodeMatch = item.dCode.toLowerCase().includes(query);
                 
-                // So khớp Gastec xử lý cả trường hợp có hoặc không có dấu cách (VD: "No.3M" vs "No. 3M" vs "3M")
                 const gCodeNormalized = item.gCode.toLowerCase().replace(/\s+/g, '');
                 const gCodeMatch = gCodeNormalized.includes(queryNoSpaces);
                 
