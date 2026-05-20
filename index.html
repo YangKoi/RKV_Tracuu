@@ -266,7 +266,7 @@
                 <i>🧪</i> Ống phát hiện khí (IMPA 33)
             </button>
             <button class="menu-btn" id="spangasTabBtn" onclick="switchTab('spangas')">
-                <i>💨</i> Khí hiệu chuẩn (IMPA 85)
+                <i>💨</i> Khí chuẩn (IMPA 85)
             </button>
         </div>
         <div class="sidebar-footer">
@@ -317,12 +317,12 @@
     <script>
         let activeTab = 'tubes';
 
-        // 1. Toàn bộ 36 mã Detector Tubes (Nhóm 33) đã được hiệu chuẩn dải đo
+        // 1. Toàn bộ 36 mã Detector Tubes (Nhóm 33) đã được   chuẩn dải đo
         const tubeDatabase = [
             // Phân nhóm IMPA 3305xx (Dòng Dräger cơ bản)
             {
                 impa: "330561",
-                gas: "Hydrocarbons (Dầu khí)",
+                gas: "Hydrocarbons",
                 dCode: "CH26101",
                 dName: "Hydrocarbon 0.1%/b",
                 dSpecs: ["Dải đo chuẩn: 0.1 - 0.8 Vol% n-Butane", "Số lần bóp bơm (n): 1", "Dải đo mở rộng: 0.1 - 1.3 Vol% Propane"],
@@ -840,7 +840,7 @@
                 renderTubesTable(tubeDatabase);
                 document.getElementById("searchInput").placeholder = "Tìm nhanh bằng: Mã IMPA, Mã Dräger, Mã Gastec hoặc Tên khí...";
             } else {
-                pageTitle.innerText = "Khí hiệu chuẩn (Span Gas - IMPA 85)";
+                pageTitle.innerText = "Khí chuẩn (Span Gas - IMPA 85)";
                 thead.innerHTML = `
                     <tr>
                         <th width="15%">Mã IMPA</th>
